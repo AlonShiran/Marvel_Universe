@@ -1,0 +1,6 @@
+<root>
+    <item
+        name='android.app.Instrumentation void callActivityOnPostCreate(android.app.Activity, android.os.Bundle, android.os.PersistableBundle) 1'>
+        <annotation name='androidx.annotation.NonNull' />
+    </item>
+</root>

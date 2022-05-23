@@ -1,4 +1,5 @@
 package com.alons.marvel_universe.ui
+
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: CharacterListAdapter
     private lateinit var layoutManager: GridLayoutManager
-    private lateinit var  bottomNav : BottomNavigationView
+    private lateinit var bottomNav: BottomNavigationView
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var mFirebaseAnalytics: FirebaseAnalytics? = null
 

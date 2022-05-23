@@ -14,7 +14,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var binding: SettingsActivityBinding
     private lateinit var user: FirebaseAuth
     private lateinit var userName: String
-      lateinit var arb : ActivityRegisterBinding
+    private lateinit var arb: ActivityRegisterBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = SettingsActivityBinding.inflate(layoutInflater)

@@ -6,11 +6,14 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.alons.marvel_universe.databinding.ActivityLoginBinding
 import com.alons.marvel_universe.util.Extensions.Extensions.toast
-import com.alons.marvel_universe.util.FirebaseUtils.FirebaseUtils.firebaseAuth
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
+    private lateinit var googleSignInClient:GoogleSignInClient
+    private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var signInEmail: String
     private lateinit var signInPassword: String
     private lateinit var signInInputsArray: Array<EditText>
@@ -19,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
+        firebaseAuth = FirebaseAuth.getInstance()
         signInEmail = binding.etSignInEmail.toString()
         signInPassword = binding.etSignInPassword.toString()
         signInInputsArray = arrayOf(binding.etSignInEmail, binding.etSignInPassword)

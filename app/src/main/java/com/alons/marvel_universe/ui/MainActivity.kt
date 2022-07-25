@@ -1,6 +1,7 @@
 package com.alons.marvel_universe.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -13,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alons.marvel_universe.R
+import com.alons.marvel_universe.R.id.favorite
 import com.alons.marvel_universe.databinding.ActivityMainBinding
 import com.alons.marvel_universe.domain.model.CharacterModel
 import com.alons.marvel_universe.ui.CharacterList.CharactersViewModel
@@ -46,11 +48,27 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         WindowCompat.setDecorFitsSystemWindows(window, false)
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
         setContentView(binding.root)
-        recyclerView = binding.characterRecyclerView
+        recyclerView = binding.charactersRecyclerView
         layoutManager = GridLayoutManager(this, 2)
-        recyclerViewCharacters()
         bottomNav = binding.bottomNavigation
         appBarConfiguration = AppBarConfiguration(bottomNav.menu)
+        recyclerViewCharacters()
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
+                favorite -> {
+                    startActivity(Intent(this, FavoritesActivity::class.java))
+                }
+                R.id.settings -> {
+                    startActivity(Intent(this, SettingsActivity::class.java))
+                }
+
+            }
+            false
+        }
+
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -62,6 +80,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
             }
         })
         Log.d("tag", Constants.timeStamp)
+
     }
 
     private fun callAPI() {
@@ -89,9 +108,9 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
-        val search = menu?.findItem(R.id.menuSearch)
+        val search = menu.findItem(R.id.menuSearch)
         val searchView = search?.actionView as androidx.appcompat.widget.SearchView
         searchView.isSubmitButtonEnabled = true
         searchView.setOnQueryTextListener(this)
@@ -100,7 +119,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
 
     @SuppressLint("NotifyDataSetChanged")
     private fun recyclerViewCharacters() {
-        recyclerView = binding.characterRecyclerView
+        recyclerView = binding.charactersRecyclerView
         adapter = CharacterListAdapter(this, ArrayList())
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter

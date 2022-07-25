@@ -1,7 +1,10 @@
 package com.alons.marvel_universe.ui.Character
+
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -16,40 +19,61 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CharacterActivity : AppCompatActivity() {
-    private val viewModelCharacter : CharacterViewModel by viewModels()
-    private var id : Int = 0
+    private val viewModelCharacter: CharacterViewModel by viewModels()
+    var id: Int = 0
     private lateinit var binding: ActivityCharacterBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCharacterBinding.inflate(layoutInflater)
+        val supportAC = supportActionBar
+        supportAC?.title = "Character Information"
+        supportAC?.setDisplayHomeAsUpEnabled(true)
         setContentView(binding.root)
-        if(intent!=null){
-            id = intent.getIntExtra("id",0)
+        if (intent != null) {
+            id = intent.getIntExtra("id", 0)
             viewModelCharacter.getCharacterByIdValue(id.toString())
             CoroutineScope(Dispatchers.Main).launch {
                 viewModelCharacter._characterValue.collect {
-                    when{
-                        it.isLoading ->{
+                    when {
+                        it.isLoading -> {
                             binding.progressBar.visibility = View.VISIBLE
                         }
-                        it.error.isNotBlank() ->{
+                        it.error.isNotBlank() -> {
                             binding.progressBar.visibility = View.GONE
-                            Toast.makeText(this@CharacterActivity,"Unexpected Error",Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                this@CharacterActivity,
+                                "Unexpected Error",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
-                        it.characterDetail.isNotEmpty()->{
+                        it.characterDetail.isNotEmpty() -> {
                             binding.progressBar.visibility = View.GONE
                             it.characterDetail.map { character ->
-                                val url = "${character.thumbnail}/landscape_medium.${character.thumbnailExt}"
-                                Picasso.get().load(url).placeholder(R.drawable.image5).into(binding.appCompatImageView)
-                                binding.textView.text = character.name
-                                binding.textView2.text = character.description
-                                Log.d("description",character.description)
-                                binding.textView3.text = character.comics.toString()
+                                val url =
+                                    "${character.thumbnail}/landscape_medium.${character.thumbnailExt}"
+                                Picasso.get().load(url).placeholder(R.drawable.image5)
+                                    .into(binding.appCompatImageView)
+                                binding.CharacterName.text = character.name
+                                binding.Description.text = character.description
+                                Log.d("description", character.description)
+                                binding.Comics.text = character.comics.toString()
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+
+        }
+
     }
 }

@@ -12,13 +12,14 @@ import com.alons.marvel_universe.R
 import com.alons.marvel_universe.domain.model.CharacterModel
 import com.alons.marvel_universe.ui.Character.CharacterActivity
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 
 class FavoritesListAdapter(
     private val context: Context,
-    private var itemList: ArrayList<CharacterModel>
+    private var favList: ArrayList<CharacterModel>
 ) : RecyclerView.Adapter<
         FavoritesListAdapter.FavoritesListViewHolder>() {
     inner class FavoritesListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -36,7 +37,7 @@ class FavoritesListAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: FavoritesListViewHolder, position: Int) {
-        val list = itemList[position]
+        val list = favList[position]
         holder.characterName.text = list.name
         val imageUrl = "${list.thumbnail}/portrait_xlarge.${list.thumbnailExt}"
         val listOfImages = listOf(
@@ -52,26 +53,23 @@ class FavoritesListAdapter(
         }
         holder.unFavorite.setOnClickListener {
             val database = Firebase.database
-            val myRef = database.getReference("favorites")
+            val auth = FirebaseAuth.getInstance()
+            val myRef = database.reference.child("users").child(auth.currentUser?.uid!!)
+                .child("favorites")
             myRef.child(list.id.toString()).removeValue()
             Toast.makeText(
                 this.context,
                 "removed from favorites",
                 Toast.LENGTH_SHORT
             ).show()
-            itemList.removeAt(position)
+            favList.removeAt(position)
             notifyItemRemoved(position)
 
 
         }
     }
     override fun getItemCount(): Int {
-        return itemList.size
+        return favList.size
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun setData(characterList: ArrayList<CharacterModel>) {
-        this.itemList.addAll(characterList)
-        notifyDataSetChanged()
-    }
 }

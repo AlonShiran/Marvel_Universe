@@ -2,61 +2,63 @@ package com.alons.marvel_universe.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.alons.marvel_universe.databinding.ActivityLoginBinding
-import com.alons.marvel_universe.util.Extensions.Extensions.toast
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.alons.marvel_universe.R
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
-    private lateinit var googleSignInClient:GoogleSignInClient
-    private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var signInEmail: String
-    private lateinit var signInPassword: String
-    private lateinit var signInInputsArray: Array<EditText>
-    private lateinit var binding: ActivityLoginBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        firebaseAuth = FirebaseAuth.getInstance()
-        signInEmail = binding.etSignInEmail.toString()
-        signInPassword = binding.etSignInPassword.toString()
-        signInInputsArray = arrayOf(binding.etSignInEmail, binding.etSignInPassword)
-        setContentView(binding.root)
-        binding.btnCreateAccount2.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
-            finish()
-        }
-        binding.btnSignIn.setOnClickListener {
-            signInUser()
-        }
-    }
+        private lateinit var tvRedirectSignUp: TextView
+        lateinit var etEmail: EditText
+        private lateinit var etPass: EditText
+        lateinit var btnLogin: Button
 
-    private fun notEmpty(): Boolean = signInEmail.isNotEmpty() && signInPassword.isNotEmpty()
-    private fun signInUser() {
-        signInEmail = binding.etSignInEmail.text.toString().trim()
-        signInPassword = binding.etSignInPassword.text.toString().trim()
-        if (notEmpty()) {
-            firebaseAuth.signInWithEmailAndPassword(signInEmail, signInPassword)
-                .addOnCompleteListener { signIn ->
-                    if (signIn.isSuccessful) {
-                        startActivity(Intent(this, MainActivity::class.java))
-                        toast("signed in successfully")
-                        finish()
-                    } else {
-                        toast("sign in failed")
-                    }
-                }
-        } else {
-            signInInputsArray.forEach { input ->
-                if (input.text.toString().trim().isEmpty()) {
-                    input.error = "${input.hint} is required"
-                }
+        // Creating firebaseAuth object
+        lateinit var auth: FirebaseAuth
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_login)
+
+            // View Binding
+            tvRedirectSignUp = findViewById(R.id.tvRedirectSignUp)
+            btnLogin = findViewById(R.id.btnLogin)
+            etEmail = findViewById(R.id.etEmailAddress)
+            etPass = findViewById(R.id.etPassword)
+
+            // initialising Firebase auth object
+            auth = FirebaseAuth.getInstance()
+
+            btnLogin.setOnClickListener {
+                login()
+            }
+
+            tvRedirectSignUp.setOnClickListener {
+                val intent = Intent(this, RegisterActivity::class.java)
+                startActivity(intent)
+                // using finish() to end the activity
+                finish()
             }
         }
+
+        private fun login() {
+            val email = etEmail.text.toString()
+            val pass = etPass.text.toString()
+            // calling signInWithEmailAndPassword(email, pass)
+            // function using Firebase auth object
+            // On successful response Display a Toast
+            auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this) {
+                if (it.isSuccessful) {
+                    Toast.makeText(this, "Successfully LoggedIn", Toast.LENGTH_SHORT).show()
+                } else
+                    Toast.makeText(this, "Log In failed ", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
-}

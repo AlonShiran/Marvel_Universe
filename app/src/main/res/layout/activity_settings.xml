@@ -21,7 +21,7 @@
         android:id="@+id/helloMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello"
+        android:text="User Info"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btnSignOut"
@@ -29,13 +29,14 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.428" />
+        app:layout_constraintVertical_bias="0.171" />
 
     <TextView
         android:id="@+id/tvUserEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="User Name"
+        android:text=" Email"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/btnSignOut"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +46,7 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:itemBackground="@color/colorPrimary"
+        app:itemBackground="@color/design_default_color_primary"
         app:itemIconTint="@android:color/white"
         app:itemTextColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -54,10 +55,11 @@
         app:menu="@menu/bottom_navigation_menu" />
 
     <TextView
-        android:id="@+id/tvUserFirstName"
+        android:id="@+id/tvUserLastName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="User First Name"
+        android:text=" Last Name"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/btnSignOut"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,13 +67,13 @@
         app:layout_constraintVertical_bias="0.805" />
 
     <TextView
-        android:id="@+id/tvUserLastName"
+        android:id="@+id/tvUserFirstName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="User Last Name"
-        app:layout_constraintBottom_toTopOf="@+id/tvUserFirstName"
+        android:text=" First Name"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvUserLastName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvUserEmail"
-        />
+        app:layout_constraintTop_toBottomOf="@id/tvUserEmail" />
 </androidx.constraintlayout.widget.ConstraintLayout>

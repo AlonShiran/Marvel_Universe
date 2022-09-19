@@ -2,121 +2,75 @@ package com.alons.marvel_universe.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.EditText
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.alons.marvel_universe.data.model.LoggedInUser
 import com.alons.marvel_universe.databinding.ActivityRegisterBinding
-import com.alons.marvel_universe.util.Extensions.Extensions.toast
-import com.alons.marvel_universe.util.FirebaseUtils.FirebaseUtils.firebaseAuth
-import com.alons.marvel_universe.util.FirebaseUtils.FirebaseUtils.firebaseUser
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
-    lateinit var auth: FirebaseAuth
-    var databaseReference :  DatabaseReference? = null
-    var database: FirebaseDatabase? = null
     private lateinit var binding: ActivityRegisterBinding
-    private lateinit var userEmail: String
-    private lateinit var userPassword: String
-    private lateinit var createAccountInputsArray: Array<EditText>
+    private lateinit var email : String
+    private lateinit var confPass : String
+    private lateinit var password : String
+    private lateinit var tvRedirectLogin : TextView
+    private lateinit var btnSignUp : Button
+
+    // create Firebase authentication object
+    private lateinit var auth: FirebaseAuth
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
-        auth = FirebaseAuth.getInstance()
-        database = FirebaseDatabase.getInstance()
-        databaseReference = database?.reference!!.child("profile")
-        userEmail = binding.etEmail.toString()
-        userPassword = binding.etPassword.toString()
+        super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        createAccountInputsArray =
-            arrayOf(binding.etEmail, binding.etPassword, binding.etConfirmPassword)
-        binding.btnCreateAccount.setOnClickListener {
-            createAccount()
+        // View Bindings
+       email = binding.etEmail.toString()
+        confPass = binding.etConfPassword.toString()
+       password = binding.etPassword.toString()
+        btnSignUp = binding.btnSSigned
+       tvRedirectLogin = binding.tvRedirectLogin
+
+        // Initialising auth object
+        auth = Firebase.auth
+
+        btnSignUp.setOnClickListener {
+            signUpUser()
         }
 
-        binding.btnSignIn2.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
-            toast("please sign into your account")
-            finish()
+        // switching from signUp Activity to Login Activity
+        tvRedirectLogin.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
+
     }
 
-    /* check if there's a signed-in user*/
+    private fun signUpUser() {
 
-    override fun onStart() {
-        super.onStart()
-        val user: FirebaseUser? = firebaseAuth.currentUser
-        user?.let {
-            startActivity(Intent(this, MainActivity::class.java))
-            toast("welcome back")
+        // check pass
+        if (email.isBlank() || password.isBlank() || confPass.isBlank()) {
+            Toast.makeText(this, "Email and Password can't be blank", Toast.LENGTH_SHORT).show()
+            return
         }
-    }
 
-    private fun notEmpty(): Boolean = binding.etEmail.text.toString().trim().isNotEmpty() &&
-            binding.etPassword.text.toString().trim().isNotEmpty() &&
-            binding.etConfirmPassword.text.toString().trim().isNotEmpty()&&
-            binding.etFirstName.text.toString().trim().isNotEmpty()&&
-            binding.etLastName.text.toString().trim().isNotEmpty()
-
-    private fun identicalPassword(): Boolean {
-        var identical = false
-        if (notEmpty() &&
-            binding.etPassword.text.toString().trim() == binding.etConfirmPassword.text.toString()
-                .trim()
-        ) {
-            identical = true
-        } else if (!notEmpty()) {
-            createAccountInputsArray.forEach { input ->
-                if (input.text.toString().trim().isEmpty()) {
-                    input.error = "${input.hint} is required"
-                }
-            }
-        } else {
-            toast("passwords are not matching !")
-        }
-        return identical
-    }
-
-    private fun createAccount() {
-        if (identicalPassword()) {
-            // identicalPassword() returns true only  when inputs are not empty and passwords are identical
-            userEmail = binding.etEmail.text.toString().trim()
-            userPassword = binding.etPassword.text.toString().trim()
-            /*create a user*/
-            firebaseAuth.createUserWithEmailAndPassword(userEmail, userPassword)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val currentUser = auth.currentUser
-                        val currentUSerDb = databaseReference?.child((currentUser?.uid!!))
-                        currentUSerDb?.child("firstname")?.setValue(binding.etFirstName.text.toString())
-                        currentUSerDb?.child("lastname")?.setValue(binding.etLastName.text.toString())
-                        toast("created account successfully !")
-                        sendEmailVerification()
-                        startActivity(Intent(this, MainActivity::class.java))
-                        finish()
-                    } else {
-                        toast("failed to Authenticate !")
-                    }
-                }
-        }
-    }
-
-    /* send verification email to the new user. This will only
-    *  work if the firebase user is not null.
-    */
-
-    private fun sendEmailVerification() {
-        firebaseUser?.let {
-            it.sendEmailVerification().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    toast("email sent to $userEmail")
-                }
+   //     if (password.toString() != confPass.toString()) {
+         //   Toast.makeText(this, "Password's do not match", Toast.LENGTH_SHORT)
+               // .show()
+       //     return
+     //   }
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) {
+            if (it.isSuccessful) {
+                Toast.makeText(this, "Successfully Singed Up", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Singed Up Failed!", Toast.LENGTH_SHORT).show()
             }
         }
     }

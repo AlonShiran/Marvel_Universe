@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -36,10 +35,10 @@ class CharacterActivity : AppCompatActivity() {
                 viewModelCharacter._characterValue.collect {
                     when {
                         it.isLoading -> {
-                            binding.progressBar.visibility = View.VISIBLE
+                            binding.progressBar2.visibility = View.VISIBLE
                         }
                         it.error.isNotBlank() -> {
-                            binding.progressBar.visibility = View.GONE
+                            binding.progressBar2.visibility = View.GONE
                             Toast.makeText(
                                 this@CharacterActivity,
                                 "Unexpected Error",
@@ -47,11 +46,11 @@ class CharacterActivity : AppCompatActivity() {
                             ).show()
                         }
                         it.characterDetail.isNotEmpty() -> {
-                            binding.progressBar.visibility = View.GONE
+                            binding.progressBar2.visibility = View.GONE
                             it.characterDetail.map { character ->
                                 val url =
                                     "${character.thumbnail}/landscape_medium.${character.thumbnailExt}"
-                                Picasso.get().load(url).placeholder(R.drawable.image5)
+                                Picasso.get().load(url).placeholder(R.drawable.image1)
                                     .into(binding.appCompatImageView)
                                 binding.CharacterName.text = character.name
                                 binding.Description.text = character.description

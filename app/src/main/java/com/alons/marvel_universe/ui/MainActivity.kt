@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.OnQueryTextListener {
     val charactersViewModel: CharactersViewModel by viewModels()
     private lateinit var searchTerm: String
-    var valueRepeat = 3
+    private var valueRepeat = 3
     var paginatedValue = 0
     private lateinit var binding: ActivityMainBinding
     private lateinit var recyclerView: RecyclerView
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         WindowCompat.setDecorFitsSystemWindows(window, false)
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
         setContentView(binding.root)
-        recyclerView = binding.charactersRecyclerView
+        recyclerView = binding.CharacterRV
         layoutManager = GridLayoutManager(this, 2)
         bottomNav = binding.bottomNavigation
         appBarConfiguration = AppBarConfiguration(bottomNav.menu)
@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
 
     @SuppressLint("NotifyDataSetChanged")
     private fun recyclerViewCharacters() {
-        recyclerView = binding.charactersRecyclerView
+        recyclerView = binding.CharacterRV
         adapter = CharacterListAdapter(this, ArrayList())
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter

@@ -23,8 +23,8 @@ class CharacterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCharacterBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
         binding = ActivityCharacterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         //title
         val supportAC = supportActionBar
         supportAC?.title = "Character Information"

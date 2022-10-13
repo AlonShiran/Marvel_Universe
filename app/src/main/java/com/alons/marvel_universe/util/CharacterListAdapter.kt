@@ -3,6 +3,7 @@ package com.alons.marvel_universe.util
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import com.google.firebase.ktx.Firebase
 
 
 class CharacterListAdapter(
+
     private val context: Context,
     private var itemList: ArrayList<CharacterModel>
 ) : RecyclerView.Adapter<
@@ -38,8 +40,18 @@ class CharacterListAdapter(
     }
 
     //all the actions in the  specific view holder
+    @SuppressLint("CommitPrefEdits", "NotifyDataSetChanged")
     override fun onBindViewHolder(holder: CharacterListViewHolder, position: Int) {
-        //declare the specific character in the list
+        //declare FireBase objects
+        val database =
+            Firebase.database("https://marveluniverseapp2912-default-rtdb.europe-west1.firebasedatabase.app/").reference
+        val auth = FirebaseAuth.getInstance()
+        val myRef =
+            database.child("users").child(auth.uid.toString()).child("favorites")
+        //declare shared pref objects
+        val sharedPreferences: SharedPreferences? =
+            context.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+        val editor = sharedPreferences?.edit()
         val list = itemList[position]
         //character name
         holder.characterName.text = list.name
@@ -52,23 +64,19 @@ class CharacterListAdapter(
         //using Glide to show character image
         Glide.with(context).load(imageUrl).placeholder(listOfImages[(0..7).random()])
             .into(holder.thumbnail)
-
         //favorite button on check change
-        if (list.isFavorite) {
-            holder.favBtn.isChecked = true
+        if (sharedPreferences != null) {
+            holder.favBtn.isChecked =
+                sharedPreferences.getBoolean(list.name, list.isFavorite)
         }
-        holder.favBtn.setOnCheckedChangeListener { _, isChecked ->
-            //declare FireBase objects
-            val database =
-                Firebase.database("https://marveluniverseapp2912-default-rtdb.europe-west1.firebasedatabase.app/").reference
-            val auth = FirebaseAuth.getInstance()
-            val myRef =
-                database.child("users").child(auth.uid.toString()).child("favorites")
+        holder.favBtn.setOnClickListener {
             //check if fav btn is already clicked
-            if (isChecked) {
+            if (holder.favBtn.isChecked) {
                 list.isFavorite = true
                 //add to favorites in firebase
                 myRef.child(list.id.toString()).setValue(list.copy())
+                editor?.putBoolean(list.name, list.isFavorite)
+                editor?.apply()
                 Toast.makeText(
                     this.context,
                     "added to favorites",
@@ -77,12 +85,17 @@ class CharacterListAdapter(
             } else {
                 //remove character from firebase
                 myRef.child(list.id.toString()).removeValue()
+                list.isFavorite = false
+                editor?.putBoolean(list.name, false)
+                editor?.apply()
                 Toast.makeText(
                     this.context,
                     "removed from favorites",
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            editor?.apply()
+
         }
         // Redirect to Character Information page
         holder.cardCharacter.setOnClickListener {
@@ -92,7 +105,7 @@ class CharacterListAdapter(
         }
     }
 
-    //count favorites
+    //count Characters
     override fun getItemCount(): Int {
         return itemList.size
     }

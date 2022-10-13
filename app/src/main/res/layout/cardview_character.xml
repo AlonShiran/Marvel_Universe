@@ -43,10 +43,11 @@
             />
 
         <ToggleButton
+            android:layout_gravity="center"
             android:id="@+id/FavoriteBtn"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:layout_margin="10dp"
+            android:layout_margin="10sp"
             android:background="@drawable/toggle_selector"
             android:textOff=""
             android:textOn="" />

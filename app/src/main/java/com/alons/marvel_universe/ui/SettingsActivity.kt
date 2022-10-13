@@ -30,8 +30,8 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         //initializing firebase objects
         auth = FirebaseAuth.getInstance()
         uid = auth.currentUser?.uid.toString()

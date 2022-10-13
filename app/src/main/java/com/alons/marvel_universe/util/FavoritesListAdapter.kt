@@ -3,6 +3,7 @@ package com.alons.marvel_universe.util
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,7 @@ class FavoritesListAdapter(
         val characterName: TextView = view.findViewById(R.id.txtFavCharacterName)
         val thumbnail: ImageView = view.findViewById(R.id.imgFavCharacterImage)
         val cardCharacter: LinearLayout = view.findViewById(R.id.FavCharactersLinearLayout)
-        val unFavorite: Button = view.findViewById(R.id.unFavoriteBtn)
+        val unFavorite: ToggleButton = view.findViewById(R.id.unFavoriteBtn)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesListViewHolder {
@@ -38,6 +39,9 @@ class FavoritesListAdapter(
 //function for all actions in the specific favorite character
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: FavoritesListViewHolder, position: Int) {
+    val sharedPreferences: SharedPreferences? =
+        context.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+    val editor = sharedPreferences?.edit()
         val list = favList[position]
         holder.characterName.text = list.name
     //favorite character image
@@ -56,12 +60,15 @@ class FavoritesListAdapter(
             context.startActivity(intent)
         }
         //remove from favorites button
+    holder.unFavorite.isChecked = true
         holder.unFavorite.setOnClickListener {
             val database = Firebase.database("https://marveluniverseapp2912-default-rtdb.europe-west1.firebasedatabase.app")
             val auth = FirebaseAuth.getInstance()
             val myRef = database.reference.child("users").child(auth.currentUser?.uid!!)
                 .child("favorites")
             myRef.child(list.id.toString()).removeValue()
+            editor?.putBoolean(list.name,false)
+            editor?.apply()
             Toast.makeText(
                 this.context,
                 "removed from favorites",

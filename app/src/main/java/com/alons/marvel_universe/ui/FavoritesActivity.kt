@@ -25,7 +25,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class FavoritesActivity : AppCompatActivity() {
     // Creating firebaseAuth object
     private lateinit var auth: FirebaseAuth
-    private val database = Firebase.database("https://marveluniverseapp2912-default-rtdb.europe-west1.firebasedatabase.app")
+    private val database =
+        Firebase.database("https://marveluniverseapp2912-default-rtdb.europe-west1.firebasedatabase.app")
     private lateinit var myRef: DatabaseReference
 
     //View Binding
@@ -34,7 +35,7 @@ class FavoritesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFavoritesBinding
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var recyclerView: RecyclerView
-    private lateinit var header : TextView
+    private lateinit var header: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFavoritesBinding.inflate(layoutInflater)
@@ -74,7 +75,8 @@ class FavoritesActivity : AppCompatActivity() {
         }
         setContentView(binding.root)
     }
-//loading favorites from FireBase
+
+    //loading favorites from FireBase
     private fun getFavorites() {
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

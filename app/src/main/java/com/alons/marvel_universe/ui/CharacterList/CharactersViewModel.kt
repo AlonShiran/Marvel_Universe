@@ -19,7 +19,7 @@ class CharactersViewModel @Inject constructor(
 ) : ViewModel() {
     private val marvelValue = MutableStateFlow(MarvelListState())
     var _marvelValue: StateFlow<MarvelListState> = marvelValue
-
+//function to get all searched characters from API
     fun getSearchedCharacters(search: String) = viewModelScope.launch(Dispatchers.IO) {
         searchCharacterCase.invoke(search = search).collect {
             when (it) {
@@ -38,7 +38,7 @@ class CharactersViewModel @Inject constructor(
             }
         }
     }
-
+//function to get all the characters from API
     fun getAllCharactersData(offset: Int) = viewModelScope.launch(Dispatchers.IO) {
         charactersUseCase(offset).collect {
             when (it) {

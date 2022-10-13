@@ -23,9 +23,12 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class FavoritesActivity : AppCompatActivity() {
+    // Creating firebaseAuth object
     private lateinit var auth: FirebaseAuth
-    private val database = Firebase.database
+    private val database = Firebase.database("https://marveluniverseapp2912-default-rtdb.europe-west1.firebasedatabase.app")
     private lateinit var myRef: DatabaseReference
+
+    //View Binding
     private lateinit var adapter: FavoritesListAdapter
     private lateinit var layoutManager: GridLayoutManager
     private lateinit var binding: ActivityFavoritesBinding
@@ -35,17 +38,24 @@ class FavoritesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFavoritesBinding.inflate(layoutInflater)
+        //initializing firebase objects
         auth = FirebaseAuth.getInstance()
-        header = binding.favoriteTitle
         myRef = database.reference.child("users").child(auth.currentUser?.uid!!).child("favorites")
         auth = FirebaseAuth.getInstance()
+        //initializing view binding
+        header = binding.favoriteTitle
         bottomNav = binding.bottomNavigation
         layoutManager = GridLayoutManager(this, 2)
+        //Recycler View
         recyclerView = binding.favoriteRV
         adapter = FavoritesListAdapter(this@FavoritesActivity, ArrayList())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
+
+        //getting user favorites from FireBase
         getFavorites()
+
+        //bottom nav bar
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> {
@@ -64,7 +74,7 @@ class FavoritesActivity : AppCompatActivity() {
         }
         setContentView(binding.root)
     }
-
+//loading favorites from FireBase
     private fun getFavorites() {
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

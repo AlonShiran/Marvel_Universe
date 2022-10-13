@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         Log.d("tag", Constants.timeStamp)
 
     }
-
+//calling the marvel API and fill the view model if succeeded
     private fun callAPI() {
         CoroutineScope(Dispatchers.Main).launch {
             repeat(valueRepeat) {
@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
             }
         }
     }
-
+//option menu
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         val search = menu.findItem(R.id.menuSearch)
@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         searchView.setOnQueryTextListener(this)
         return true
     }
-
+//method to initialize the Recycler View
     @SuppressLint("NotifyDataSetChanged")
     private fun recyclerViewCharacters() {
         recyclerView = binding.CharacterRV
@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
     }
-
+//search submit method
     override fun onQueryTextSubmit(query: String?): Boolean {
         if (query != null) {
             searchTerm = query
@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         }
         return true
     }
-
+// search text change method
     override fun onQueryTextChange(query: String?): Boolean {
         if (query != null) {
             searchTerm = query
@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         }
         return true
     }
-
+// search in the API values the searched term
     @SuppressLint("NotifyDataSetChanged")
     private fun search() {
         charactersViewModel.getSearchedCharacters(searchTerm)

@@ -24,6 +24,7 @@ class CharacterListAdapter(
 ) : RecyclerView.Adapter<
         CharacterListAdapter.CharacterListViewHolder>() {
     inner class CharacterListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        //view binding
         val characterName: TextView = view.findViewById(R.id.txtCharacterName)
         val thumbnail: ImageView = view.findViewById(R.id.imgCharacterImage)
         val cardCharacter: LinearLayout = view.findViewById(R.id.characterLinearLayout)
@@ -36,29 +37,45 @@ class CharacterListAdapter(
         return CharacterListViewHolder(view)
     }
 
+    //all the actions in the  specific view holder
     override fun onBindViewHolder(holder: CharacterListViewHolder, position: Int) {
+        //declare the specific character in the list
         val list = itemList[position]
+        //character name
         holder.characterName.text = list.name
+        //character image
         val imageUrl = "${list.thumbnail}/portrait_xlarge.${list.thumbnailExt}"
         val listOfImages = listOf(
             image1, R.drawable.image2, R.drawable.image3, R.drawable.image4,
             R.drawable.image6, R.drawable.image7, R.drawable.image8, R.drawable.image5
         )
+        //using Glide to show character image
         Glide.with(context).load(imageUrl).placeholder(listOfImages[(0..7).random()])
             .into(holder.thumbnail)
+
+        //favorite button on check change
+        if (list.isFavorite) {
+            holder.favBtn.isChecked = true
+        }
         holder.favBtn.setOnCheckedChangeListener { _, isChecked ->
-            val database = Firebase.database
+            //declare FireBase objects
+            val database =
+                Firebase.database("https://marveluniverseapp2912-default-rtdb.europe-west1.firebasedatabase.app/").reference
             val auth = FirebaseAuth.getInstance()
             val myRef =
-                database.reference.child("users").child(auth.uid.toString())
+                database.child("users").child(auth.uid.toString()).child("favorites")
+            //check if fav btn is already clicked
             if (isChecked) {
-                myRef.setValue(list.copy())
+                list.isFavorite = true
+                //add to favorites in firebase
+                myRef.child(list.id.toString()).setValue(list.copy())
                 Toast.makeText(
                     this.context,
                     "added to favorites",
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
+                //remove character from firebase
                 myRef.child(list.id.toString()).removeValue()
                 Toast.makeText(
                     this.context,
@@ -67,6 +84,7 @@ class CharacterListAdapter(
                 ).show()
             }
         }
+        // Redirect to Character Information page
         holder.cardCharacter.setOnClickListener {
             val intent = Intent(context, CharacterActivity::class.java)
             intent.putExtra("id", list.id)
@@ -74,10 +92,12 @@ class CharacterListAdapter(
         }
     }
 
+    //count favorites
     override fun getItemCount(): Int {
         return itemList.size
     }
 
+    //set data change function
     @SuppressLint("NotifyDataSetChanged")
     fun setData(characterList: ArrayList<CharacterModel>) {
         this.itemList.addAll(characterList)

@@ -15,10 +15,10 @@ import javax.inject.Inject
 class CharacterViewModel @Inject constructor(
     private val characterUseCase: CharacterUseCase
 ) : ViewModel() {
-
+//saving in variable the state
     private val characterValue = MutableStateFlow(CharacterState())
     val _characterValue: StateFlow<CharacterState> = characterValue
-
+//method to get Character info by his id
     fun getCharacterByIdValue(id: String?) = viewModelScope.launch {
         if (id != null) {
             characterUseCase(id).collect {

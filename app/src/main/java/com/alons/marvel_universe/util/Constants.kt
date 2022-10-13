@@ -5,6 +5,7 @@ import java.sql.Timestamp
 
 class Constants {
     companion object {
+        //keys to API
         const val BASE_URL = "https://gateway.marvel.com/"
         val timeStamp = Timestamp(System.currentTimeMillis()).time.toString()
         const val API_KEY = "7f9d7db193ef3c9fd19b08058b16b634"

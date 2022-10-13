@@ -22,4 +22,7 @@
     <string name="first_name">first name</string>
     <string name="last_name">last name</string>
     <string name="confirm_password">confirm_password</string>
+    <string name="already_have_an_account_login_here">already have an account? login here</string>
+    <string name="Email">Email</string>
+    <string name="sign_up">Sign Up</string>
 </resources>

@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "221769879287",
-    "project_id": "marveluniverseapp",
-    "storage_bucket": "marveluniverseapp.appspot.com"
+    "project_number": "613283563314",
+    "project_id": "marveluniverseapp2912",
+    "storage_bucket": "marveluniverseapp2912.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:221769879287:android:6357e9836889173bd14df2",
+        "mobilesdk_app_id": "1:613283563314:android:0393a6923ebd7b851f392b",
         "android_client_info": {
           "package_name": "com.alons.marvel_universe"
         }
       },
       "oauth_client": [
         {
-          "client_id": "221769879287-gr24hmea2pfkuh9p1a00o4c36evgipdv.apps.googleusercontent.com",
+          "client_id": "613283563314-9bl6084sn041650m4iear306jkr5ls5g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alons.marvel_universe",
+            "certificate_hash": "5811fab9e2aa983dc9c6d654be61a32803fbc78c"
+          }
+        },
+        {
+          "client_id": "613283563314-82j9ps6ustv33rmq9p2h6ukjt36vg3rd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAs2K0yaOdLq9ZV90Rit-gyKoAMhNk8_bA"
+          "current_key": "AIzaSyAIgd7tKpoHwRU52vhiht_x6H-MwC2V8eU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "221769879287-gr24hmea2pfkuh9p1a00o4c36evgipdv.apps.googleusercontent.com",
+              "client_id": "613283563314-82j9ps6ustv33rmq9p2h6ukjt36vg3rd.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

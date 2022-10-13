@@ -23,6 +23,7 @@ class FavoritesListAdapter(
 ) : RecyclerView.Adapter<
         FavoritesListAdapter.FavoritesListViewHolder>() {
     inner class FavoritesListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        // View Binding
         val characterName: TextView = view.findViewById(R.id.txtFavCharacterName)
         val thumbnail: ImageView = view.findViewById(R.id.imgFavCharacterImage)
         val cardCharacter: LinearLayout = view.findViewById(R.id.FavCharactersLinearLayout)
@@ -34,25 +35,29 @@ class FavoritesListAdapter(
             LayoutInflater.from(parent.context).inflate(R.layout.cardrview_favorites, parent, false)
         return FavoritesListViewHolder(view)
     }
-
+//function for all actions in the specific favorite character
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: FavoritesListViewHolder, position: Int) {
         val list = favList[position]
         holder.characterName.text = list.name
+    //favorite character image
         val imageUrl = "${list.thumbnail}/portrait_xlarge.${list.thumbnailExt}"
         val listOfImages = listOf(
             R.drawable.image1, R.drawable.image2, R.drawable.image3, R.drawable.image4,
             R.drawable.image6, R.drawable.image7, R.drawable.image8, R.drawable.image5
         )
+    //using Glide to show the image of the character
         Glide.with(context).load(imageUrl).placeholder(listOfImages[(0..7).random()])
             .into(holder.thumbnail)
+    //Redirect to Character info page
         holder.cardCharacter.setOnClickListener {
             val intent = Intent(context, CharacterActivity::class.java)
             intent.putExtra("id", list.id)
             context.startActivity(intent)
         }
+        //remove from favorites button
         holder.unFavorite.setOnClickListener {
-            val database = Firebase.database
+            val database = Firebase.database("https://marveluniverseapp2912-default-rtdb.europe-west1.firebasedatabase.app")
             val auth = FirebaseAuth.getInstance()
             val myRef = database.reference.child("users").child(auth.currentUser?.uid!!)
                 .child("favorites")
@@ -68,6 +73,7 @@ class FavoritesListAdapter(
 
         }
     }
+    //count how many favorites in the list
     override fun getItemCount(): Int {
         return favList.size
     }

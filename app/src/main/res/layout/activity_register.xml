@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".ui.RegisterActivity">
+    tools:context=".ui.activities.RegisterActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
@@ -22,29 +20,30 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:background="#30ffffff"
-            android:id="@+id/etFirstName"
+            android:id="@+id/etUserFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="15dp"
             android:autofillHints="name"
+            android:background="#30ffffff"
             android:ems="10"
             android:hint="@string/first_name"
             android:inputType="textPersonName"
             android:minHeight="48dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white" />
+
         <EditText
-            android:background="#30ffffff"
-            android:id="@+id/etLastName"
+            android:id="@+id/etUserLastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
             android:layout_marginTop="30dp"
+            android:layout_marginRight="15dp"
             android:autofillHints="name"
+            android:background="#30ffffff"
             android:ems="10"
             android:hint="@string/last_name"
             android:inputType="textPersonName"
@@ -53,23 +52,22 @@
             android:textColorHint="@color/white" />
 
         <EditText
-            android:id="@+id/etEmail"
+            android:id="@+id/etEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="15dp"
             android:autofillHints="emailAddress"
-            android:ems="10"
-            android:hint="@string/Email"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
             android:background="#30ffffff"
+            android:ems="10"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
 
         <EditText
-            android:background="#30ffffff"
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,6 +75,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginRight="15dp"
             android:autofillHints="password"
+            android:background="#30ffffff"
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
@@ -84,39 +83,39 @@
             android:textColorHint="@color/white" />
 
         <EditText
-            android:background="#30ffffff"
-            android:id="@+id/etConfPassword"
+            android:id="@+id/etConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="15dp"
             android:autofillHints="password"
+            android:background="#30ffffff"
             android:ems="10"
             android:hint="@string/confirm_password"
             android:inputType="textPassword"
             android:minHeight="48dp"
-            android:textColorHint="@color/white"
             android:textColor="@color/white"
+            android:textColorHint="@color/white"
             tools:ignore="TextContrastCheck" />
 
         <Button
-            android:ems="10"
-            android:background="@color/black"
-            android:id="@+id/btnSSigned"
+            android:id="@+id/btnSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_margin="15dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/black"
+            android:ems="10"
             android:text="@string/sign_up" />
 
         <TextView
-            android:ems="10"
-            android:background="#30ffffff"
             android:id="@+id/tvRedirectLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:background="#30ffffff"
+            android:ems="10"
             android:gravity="center_horizontal"
             android:text="@string/already_have_an_account_login_here"
             android:textColor="@color/white"

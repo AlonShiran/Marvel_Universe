@@ -15,17 +15,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".ui.FavoritesActivity"
+            android:name=".ui.activities.RegisterActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.SettingsActivity"
-            android:exported="true"
-            android:label="@string/title_activity_settings" />
-        <activity
-            android:name=".ui.RegisterActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,10 +27,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.Character.CharacterActivity"
+            android:name=".ui.character.CharacterActivity"
             android:exported="true" />
     </application>
 

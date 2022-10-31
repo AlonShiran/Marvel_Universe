@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alons.marvel_universe.R
 import com.alons.marvel_universe.R.drawable.image1
 import com.alons.marvel_universe.domain.model.CharacterModel
-import com.alons.marvel_universe.ui.Character.CharacterActivity
+import com.alons.marvel_universe.ui.character.CharacterActivity
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database

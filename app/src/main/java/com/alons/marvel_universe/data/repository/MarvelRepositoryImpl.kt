@@ -1,7 +1,7 @@
 package com.alons.marvel_universe.data.repository
 
-import com.alons.marvel_universe.data.data_source.dto.CharacterDTO.CharacterDTO
-import com.alons.marvel_universe.data.data_source.dto.CharactersDTO.CharactersDTO
+import com.alons.marvel_universe.data.data_source.dto.characterDTO.CharacterDTO
+import com.alons.marvel_universe.data.data_source.dto.charactersDTO.CharactersDTO
 import com.alons.marvel_universe.data.data_source.MarvelApi
 import com.alons.marvel_universe.domain.repository.MarvelRepository
 import javax.inject.Inject
